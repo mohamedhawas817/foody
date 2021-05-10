@@ -48,7 +48,8 @@ class Meal_detailScreen extends StatelessWidget {
                   );
                 },
               itemCount: selectedMeal.steps.length,
-            ))
+            )),
+
           ],
         ),
       )
