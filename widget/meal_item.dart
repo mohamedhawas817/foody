@@ -53,7 +53,7 @@ class MealItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
 
-      onTap: () => Navigator.pushNamed(context, Meal_detailScreen.id_screen,  arguments: {'title': title} ),
+      onTap: () => Navigator.pushNamed(context, Meal_detailScreen.id_screen,  arguments: { 'imageUrl':imageUrl, 'id': id, 'title': title} ),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         elevation: 5,
