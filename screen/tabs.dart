@@ -1,20 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:food/screen/categories_screen.dart';
 import 'package:food/screen/favouriteScreen.dart';
+import 'package:food/widget/main_drawer.dart';
+import 'package:food/model/meal.dart';
 
 class TabsScreen extends StatefulWidget {
+
+  final List<Meal> favourtieMeals;
+  TabsScreen(this.favourtieMeals);
+
+
+
   @override
   _TabsScreenState createState() => _TabsScreenState();
 }
 
 class _TabsScreenState extends State<TabsScreen> {
 
-  final List<Map<String, Object>> _pages = [
-    {'page' :CategoriesScreen(), 'title': "Categories"},
-    {'page': FavourieScreen(), 'title': 'Favorite'}
-  ];
+   List<Map<String, Object>> _pages;
 
   int _selectPageIndex = 0;
+
+  @override
+  void initState() {
+
+    _pages =  [
+      {'page' :CategoriesScreen(), 'title': "Categories"},
+      {'page': FavourieScreen(widget.favourtieMeals), 'title': 'Favorite'}
+    ];
+
+    super.initState();
+  }
 
   void _selectPage(int index) {
       setState(() {
@@ -28,7 +44,7 @@ class _TabsScreenState extends State<TabsScreen> {
       appBar: AppBar(
         title: Text(_pages[_selectPageIndex]['title'],),
       ),
-      drawer: Drawer(child: Text("Hum"),),
+      drawer: Drawer(child: MainDrawer(),),
 
       body: _pages[_selectPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(

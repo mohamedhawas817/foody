@@ -11,8 +11,11 @@ class MealItem extends StatelessWidget {
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
+  final Function removeItem;
 
-  MealItem({this.id, this.title, this.imageUrl, this.duration, this.complexity, this.affordability});
+
+  MealItem({this.id, this.title, this.imageUrl, this.duration, this.complexity, this.affordability, this.removeItem});
+
 
 
 
@@ -53,7 +56,16 @@ class MealItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
 
-      onTap: () => Navigator.pushNamed(context, Meal_detailScreen.id_screen,  arguments: { 'imageUrl':imageUrl, 'id': id, 'title': title} ),
+      onTap: () => Navigator.pushNamed(
+          context,
+          Meal_detailScreen.id_screen,
+          arguments: { 'imageUrl' :imageUrl, 'id': id, 'title': title}
+          )
+        .then((value) {
+          if(value != null) {
+            removeItem(value);
+          }
+      }),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         elevation: 5,

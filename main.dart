@@ -3,13 +3,65 @@ import 'file:///C:/Users/M%20E%20T%20R%20O/flutter/food/lib/screen/categories_sc
 import 'file:///C:/Users/M%20E%20T%20R%20O/flutter/food/lib/screen/category_meals_screen.dart';
 import 'package:food/screen/mea_detail_screen.dart';
 import 'package:food/screen/tabs.dart';
-
+import 'package:food/screen/filter_screen.dart';
+import 'package:food/dummy_data.dart';
+import 'package:food/model/meal.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  Map<String, bool> _filters= {
+    "gluten": false,
+    "lactose": false,
+    "vegan": false,
+    "vegaterian": false,
+  };
+
+  List<Meal> _avaliableMeals = DUMMY_MEALS;
+  List<Meal> _favouriteMeals = [];
+
+  void _setFilters(Map<String, bool> filterData) {
+
+    setState(() {
+      _filters = filterData;
+
+      _avaliableMeals = DUMMY_MEALS.where((meal)  {
+        if(_filters["gluten"] && !meal.isGlutenFree) {
+          return false;
+        }
+
+        if(_filters["lactose"] && !meal.isLactoseFree) {
+          return false;
+        }
+
+        if(_filters["vegan"] && !meal.isVegan) {
+          return false;
+        }
+
+        if(_filters["vegaterian"] && !meal.isVegetarian) {
+          return false;
+        }
+        return true;
+
+
+
+      }).toList();
+    });
+
+  }
+
+  void _toggleFavourite(String mealId) {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,9 +83,10 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: CategoriesScreen.id,
       routes: {
-        CategoriesScreen.id : (context) => TabsScreen(),
-        Category_meals.id : (context) => Category_meals(),
-        Meal_detailScreen.id_screen: (context)  => Meal_detailScreen()
+        CategoriesScreen.id : (context) => TabsScreen(_favouriteMeals),
+        Category_meals.id : (context) => Category_meals(_avaliableMeals),
+        Meal_detailScreen.id_screen: (context)  => Meal_detailScreen(),
+        FilterScreen.id: (context) => FilterScreen(_filters, _setFilters)
 
       },
 
