@@ -59,7 +59,21 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _toggleFavourite(String mealId) {
+      final existingIndex =  _favouriteMeals.indexWhere((meal) => meal.id == mealId);
+      if(existingIndex >=0) {
+        setState(() {
+          _favouriteMeals.removeAt(existingIndex);
+        });
+      }else {
+        setState(() {
+          _favouriteMeals.add(DUMMY_MEALS.firstWhere((meal) => meal.id == mealId));
 
+        });
+      }
+  }
+
+  bool _isMealFavourtie(String Id) {
+    return _favouriteMeals.any((meal) => meal.id == Id); //any stops after first element it found
   }
 
   @override
@@ -85,7 +99,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         CategoriesScreen.id : (context) => TabsScreen(_favouriteMeals),
         Category_meals.id : (context) => Category_meals(_avaliableMeals),
-        Meal_detailScreen.id_screen: (context)  => Meal_detailScreen(),
+        Meal_detailScreen.id_screen: (context)  => Meal_detailScreen(_toggleFavourite, _isMealFavourtie),
         FilterScreen.id: (context) => FilterScreen(_filters, _setFilters)
 
       },

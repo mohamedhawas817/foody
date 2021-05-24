@@ -34,7 +34,7 @@ class _Category_mealsState extends State<Category_meals> {
   void didChangeDependencies() {
     if(_loadedInitData == false) {
       final routeArgs = ModalRoute.of(context).settings.arguments as Map<String, String>;
-      print(ModalRoute.of(context).settings);
+
       categorytitle = routeArgs['categorytitle'];
       final categoryId = routeArgs['categoryId'];
       categoryMeals = widget.avaliable_meals.where((meal) => meal.categories.contains(categoryId)).toList();

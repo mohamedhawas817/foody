@@ -5,7 +5,11 @@ import 'package:food/model/meal.dart';
 class Meal_detailScreen extends StatelessWidget {
 
   static const String id_screen = "meal_detail";
+  final Function toggleFavourite;
+  final Function isFavourite;
 
+
+  Meal_detailScreen(this.toggleFavourite, this.isFavourite);
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +20,11 @@ class Meal_detailScreen extends StatelessWidget {
     String img = routes['imageUrl'];
     final selectedMeal = DUMMY_MEALS.firstWhere((meal) => meal.id == id );
 
+    print(id);
 
     return Scaffold(
       appBar: AppBar(title: Text(title),),
-      floatingActionButton: FloatingActionButton(child: Icon(Icons.delete), onPressed: () {
-        Navigator.pop(context, id);
-      }, ),
+      floatingActionButton: FloatingActionButton(child: Icon(isFavourite(id) ? Icons.star: Icons.star_border), onPressed: () => toggleFavourite(id) ),
       body: SingleChildScrollView(
         child: Column(
           children: [
